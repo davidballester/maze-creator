@@ -32,9 +32,13 @@
 	}
 </script>
 
-<header>
+<header class="mb-4">
 	<h1 class="text-center text-6xl">Create a New Maze</h1>
 </header>
+<p class="p-4">
+	Edit the maze and then explore it. You can share the exploration link with anyone for them to
+	explore your maze!
+</p>
 <div class="mt-8 p-4">
 	<Input label="Title" type="string" bind:value={maze.title} />
 	<Input
@@ -54,10 +58,11 @@
 		max={MAX_HEIGHT}
 	/>
 	<Button onclick={onGenerateMaze}>Generate</Button>
+
+	{#if maze}
+		<div class="mt-4 flex flex-col gap-3">
+			<MazeOverview {maze} />
+			<LinkButton href={`/explore/${compressToURIComponent(maze)}`}>Explore</LinkButton>
+		</div>
+	{/if}
 </div>
-{#if maze}
-	<div class="flex flex-col gap-3">
-		<MazeOverview {maze} />
-		<LinkButton href={`/explore/${compressToURIComponent(maze)}`}>Explore</LinkButton>
-	</div>
-{/if}

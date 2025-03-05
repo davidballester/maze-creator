@@ -1,12 +1,22 @@
 <script lang="ts">
+	import { Github } from 'lucide-svelte';
 	import '../app.css';
 	let { children } = $props();
 </script>
 
-<div class="min-h-screen bg-stone-950 text-stone-100">
-	<div class="flex justify-center align-top">
-		<div class="w-full pt-4 pb-4 sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl">
+<div class=" bg-stone-950 text-stone-100">
+	<div class="flex min-h-screen w-full flex-col items-center">
+		<div class="w-full grow-1 pt-4 pb-4 sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl">
 			{@render children()}
 		</div>
+		<footer class="flex flex-col items-center gap-4 p-4">
+			<a href="https://github.com/davidballester/maze-creator" class="flex gap-3">
+				<Github color="var(--color-stone-100)" class="w-6" />
+				<span class="text-base">David Ballester Mena</span>
+			</a>
+			<a href="https://www.flaticon.es/iconos-gratis/huella">
+				Footprints icon by Vitaly Gorbachev - Flaticon
+			</a>
+		</footer>
 	</div>
 </div>
