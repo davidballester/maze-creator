@@ -1,11 +1,9 @@
 <script lang="ts">
 	import type { MazeCell } from '$lib/maze';
 	import footprintsImage from '$lib/assets/footprints.png';
+	import type { Orientation } from '$lib/orientation';
 
-	let {
-		cell,
-		solutionOrientation
-	}: { cell: MazeCell; solutionOrientation: 'none' | 'north' | 'east' | 'south' | 'west' } =
+	let { cell, solutionOrientation }: { cell: MazeCell; solutionOrientation: 'none' | Orientation } =
 		$props();
 
 	let borders = $derived.by(() => {

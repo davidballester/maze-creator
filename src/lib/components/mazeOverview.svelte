@@ -1,6 +1,7 @@
 <script lang="ts">
-	import type { Maze, MazeCell, MazeCellCoordinates } from '$lib/maze';
+	import type { Maze, MazeCellCoordinates } from '$lib/maze';
 	import { getMazeSolution } from '$lib/mazeSolver';
+	import type { Orientation } from '$lib/orientation';
 	import MazeOverviewCell from './mazeOverviewCell.svelte';
 
 	let { maze }: { maze: Maze } = $props();
@@ -10,10 +11,7 @@
 		})
 	);
 
-	function getSolutionOrientation({
-		i,
-		j
-	}: MazeCellCoordinates): 'none' | 'north' | 'east' | 'south' | 'west' {
+	function getSolutionOrientation({ i, j }: MazeCellCoordinates): 'none' | Orientation {
 		const mazeSolutionIndex = mazeSolution.findIndex((cell) => cell.i === i && cell.j === j);
 		if (mazeSolutionIndex === -1) {
 			return 'none';

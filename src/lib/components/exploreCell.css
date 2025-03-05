@@ -1,0 +1,80 @@
+table {
+	--border: 5px solid var(--color-stone-100);
+
+	&.north {
+		#north,
+		&:not(.east) #north-east,
+		&:not(.west) #north-west {
+			border-bottom: var(--border);
+		}
+		&.east:not(.south) #south-east {
+			border-left: var(--border);
+		}
+		&.west:not(.south) #south-west {
+			border-right: var(--border);
+		}
+		#north > * {
+			visibility: hidden;
+		}
+	}
+	&:not(.north) {
+		&:not(.east) #north-east {
+			border-left: var(--border);
+			border-bottom: var(--border);
+		}
+		&:not(.west) #north-west {
+			border-right: var(--border);
+			border-bottom: var(--border);
+		}
+	}
+	&.east {
+		#east,
+		&:not(.north) #north-east,
+		&:not(.south) #south-east {
+			border-left: var(--border);
+		}
+		&:not(.north) #north-west,
+		&:not(.south) #south-west {
+			border-right: var(--border);
+		}
+		#east > * {
+			visibility: hidden;
+		}
+	}
+	&.south {
+		#south,
+		&:not(.east) #south-east,
+		&:not(.west) #south-west {
+			border-top: var(--border);
+		}
+		&.west:not(.north) #north-west {
+			border-right: var(--border);
+		}
+		&.east:not(.north) #north-east {
+			border-left: var(--border);
+		}
+		#south > * {
+			visibility: hidden;
+		}
+	}
+	&:not(.south) {
+		&:not(.east) #south-east {
+			border-left: var(--border);
+			border-top: var(--border);
+		}
+		&:not(.west) #south-west {
+			border-right: var(--border);
+			border-top: var(--border);
+		}
+	}
+	&.west {
+		#west,
+		&:not(.north) #north-west,
+		&:not(.south) #south-west {
+			border-right: var(--border);
+		}
+		#west > * {
+			visibility: hidden;
+		}
+	}
+}

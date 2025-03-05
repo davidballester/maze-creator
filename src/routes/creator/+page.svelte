@@ -32,10 +32,10 @@
 	}
 </script>
 
-<header class="p-4">
+<header>
 	<h1 class="text-center text-6xl">Create a New Maze</h1>
 </header>
-<div class="mt-4 p-4">
+<div class="mt-8 p-4">
 	<Input label="Title" type="string" bind:value={maze.title} />
 	<Input
 		label="Width"
