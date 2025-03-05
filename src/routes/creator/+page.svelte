@@ -1,10 +1,12 @@
 <script lang="ts">
-	import type { Maze, MazeCellCoordinates } from '$lib/maze';
+	import type { Maze } from '$lib/maze';
 	import { generateMaze } from '$lib/randomMazeGenerator';
 	import { onMount } from 'svelte';
 	import Input from '$lib/components/input.svelte';
 	import Button from '$lib/components/button.svelte';
 	import MazeOverview from '$lib/components/mazeOverview.svelte';
+	import LinkButton from '$lib/components/linkButton.svelte';
+	import { compressToURIComponent } from '$lib/compress';
 
 	const MIN_WIDTH = 3;
 	const MAX_WIDTH = 15;
@@ -54,5 +56,8 @@
 	<Button onclick={onGenerateMaze}>Generate</Button>
 </div>
 {#if maze}
-	<MazeOverview {maze} />
+	<div class="flex flex-col gap-3">
+		<MazeOverview {maze} />
+		<LinkButton href={`/explore/${compressToURIComponent(maze)}`}>Explore</LinkButton>
+	</div>
 {/if}
