@@ -1,1 +1,0 @@
-- [Footprints icon by Vitaly Gorbachev - Flaticon](https://www.flaticon.es/iconos-gratis/huella)
