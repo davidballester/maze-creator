@@ -8,7 +8,9 @@
 <div class=" bg-stone-950 text-stone-100">
 	<AnimatedBackground />
 	<div class="flex min-h-screen w-full flex-col items-center">
-		<div class="w-full grow-1 pt-4 pb-4 sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl">
+		<div
+			class="flex w-full grow-1 flex-col items-center pt-4 pb-4 sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+		>
 			{@render children()}
 		</div>
 		<footer class="flex flex-col items-center gap-4 p-4">

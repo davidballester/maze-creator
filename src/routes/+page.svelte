@@ -32,37 +32,39 @@
 	}
 </script>
 
-<header class="mb-4">
-	<h1 class="text-center text-6xl">Create a New Maze</h1>
-</header>
-<p class="p-4">
-	Edit the maze and then explore it. You can share the exploration link with anyone for them to
-	explore your maze!
-</p>
-<div class="mt-8 p-4">
-	<Input label="Title" type="string" bind:value={maze.title} />
-	<Input
-		label="Width"
-		type="number"
-		bind:value={width}
-		onblur={() => (width = Math.max(MIN_WIDTH, Math.min(width, MAX_WIDTH)))}
-		min={MIN_WIDTH}
-		max={MAX_WIDTH}
-	/>
-	<Input
-		label="Height"
-		type="number"
-		bind:value={height}
-		onblur={() => (height = Math.max(MIN_HEIGHT, Math.min(height, MAX_HEIGHT)))}
-		min={MIN_HEIGHT}
-		max={MAX_HEIGHT}
-	/>
-	<Button onclick={onGenerateMaze}>Generate</Button>
+<div class="w-full">
+	<header class="mb-4">
+		<h1 class="text-center text-6xl">Create a New Maze</h1>
+	</header>
+	<p class="p-4">
+		Edit the maze and then explore it. You can share the exploration link with anyone for them to
+		explore your maze!
+	</p>
+	<div class="mt-8 p-4">
+		<Input label="Title" type="string" bind:value={maze.title} />
+		<Input
+			label="Width"
+			type="number"
+			bind:value={width}
+			onblur={() => (width = Math.max(MIN_WIDTH, Math.min(width, MAX_WIDTH)))}
+			min={MIN_WIDTH}
+			max={MAX_WIDTH}
+		/>
+		<Input
+			label="Height"
+			type="number"
+			bind:value={height}
+			onblur={() => (height = Math.max(MIN_HEIGHT, Math.min(height, MAX_HEIGHT)))}
+			min={MIN_HEIGHT}
+			max={MAX_HEIGHT}
+		/>
+		<Button onclick={onGenerateMaze}>Generate</Button>
 
-	{#if maze}
-		<div class="mt-4 flex flex-col gap-3">
-			<MazeOverview {maze} />
-			<LinkButton href={`/explore/${compressToURIComponent(maze)}`}>Explore</LinkButton>
-		</div>
-	{/if}
+		{#if maze}
+			<div class="mt-4 flex flex-col gap-3">
+				<MazeOverview {maze} />
+				<LinkButton href={`/explore/${compressToURIComponent(maze)}`}>Explore</LinkButton>
+			</div>
+		{/if}
+	</div>
 </div>

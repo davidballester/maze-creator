@@ -4,6 +4,7 @@
 	import type { Orientation } from '$lib/orientation';
 	import { fade } from 'svelte/transition';
 	import type { PageProps } from './$types';
+	import LinkButton from '$lib/components/ui/linkButton.svelte';
 
 	const transitionDuration = 200;
 
@@ -29,16 +30,23 @@
 	}
 </script>
 
-<div class="select-none">
+<div class="flex flex-1 flex-col items-center select-none">
 	<header>
 		<h1 class="text-center text-6xl">{maze.title || 'Maze'}</h1>
 	</header>
 
-	<div class="mt-8 flex justify-center">
+	<div class="mt-8 flex grow-1 justify-center">
 		{#if showCell}
 			<div transition:fade={{ duration: transitionDuration }}>
 				<ExploreCell cell={currentCell} go={goInDirection} {adjacent} />
 			</div>
 		{/if}
 	</div>
+
+	<a
+		href="/"
+		class="w-full cursor-pointer rounded-sm bg-stone-800 pt-2 pr-4 pb-2 pl-4 text-center text-base text-stone-100 transition-all hover:bg-stone-700"
+	>
+		Create your own maze
+	</a>
 </div>
