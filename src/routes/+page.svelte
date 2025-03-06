@@ -2,10 +2,10 @@
 	import type { Maze } from '$lib/maze';
 	import { generateMaze } from '$lib/randomMazeGenerator';
 	import { onMount } from 'svelte';
-	import Input from '$lib/components/input.svelte';
-	import Button from '$lib/components/button.svelte';
+	import Input from '$lib/components/ui/input.svelte';
+	import Button from '$lib/components/ui/button.svelte';
 	import MazeOverview from '$lib/components/mazeOverview.svelte';
-	import LinkButton from '$lib/components/linkButton.svelte';
+	import LinkButton from '$lib/components/ui/linkButton.svelte';
 	import { compressToURIComponent } from '$lib/compress';
 
 	const MIN_WIDTH = 3;

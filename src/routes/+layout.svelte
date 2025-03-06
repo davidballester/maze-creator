@@ -14,7 +14,7 @@
 				<Github color="var(--color-stone-100)" class="w-6" />
 				<span class="text-base">David Ballester Mena</span>
 			</a>
-			<a href="https://www.flaticon.es/iconos-gratis/huella">
+			<a href="https://www.flaticon.es/iconos-gratis/huella" class="text-xs">
 				Footprints icon by Vitaly Gorbachev - Flaticon
 			</a>
 		</footer>

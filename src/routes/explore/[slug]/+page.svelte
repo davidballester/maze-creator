@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ExploreCell from '$lib/components/exploreCell.svelte';
+	import ExploreCell from '$lib/components/explore/exploreCell.svelte';
 	import { getAdjacents, getCell, go, type Adjacent } from '$lib/maze';
 	import type { Orientation } from '$lib/orientation';
 	import { fade } from 'svelte/transition';
