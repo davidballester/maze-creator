@@ -7,6 +7,7 @@
 	import MazeOverview from '$lib/components/mazeOverview.svelte';
 	import LinkButton from '$lib/components/ui/linkButton.svelte';
 	import { compressToURIComponent } from '$lib/compress';
+	import Accordion from '$lib/components/ui/accordion.svelte';
 
 	const MIN_WIDTH = 3;
 	const MAX_WIDTH = 15;
@@ -42,23 +43,25 @@
 	</p>
 	<div class="mt-8 p-4">
 		<Input label="Title" type="string" bind:value={maze.title} />
-		<Input
-			label="Width"
-			type="number"
-			bind:value={width}
-			onblur={() => (width = Math.max(MIN_WIDTH, Math.min(width, MAX_WIDTH)))}
-			min={MIN_WIDTH}
-			max={MAX_WIDTH}
-		/>
-		<Input
-			label="Height"
-			type="number"
-			bind:value={height}
-			onblur={() => (height = Math.max(MIN_HEIGHT, Math.min(height, MAX_HEIGHT)))}
-			min={MIN_HEIGHT}
-			max={MAX_HEIGHT}
-		/>
-		<Button onclick={onGenerateMaze}>Generate</Button>
+		<Accordion title="Layout" initial={true}>
+			<Input
+				label="Width"
+				type="number"
+				bind:value={width}
+				onblur={() => (width = Math.max(MIN_WIDTH, Math.min(width, MAX_WIDTH)))}
+				min={MIN_WIDTH}
+				max={MAX_WIDTH}
+			/>
+			<Input
+				label="Height"
+				type="number"
+				bind:value={height}
+				onblur={() => (height = Math.max(MIN_HEIGHT, Math.min(height, MAX_HEIGHT)))}
+				min={MIN_HEIGHT}
+				max={MAX_HEIGHT}
+			/>
+			<Button onclick={onGenerateMaze}>Generate</Button>
+		</Accordion>
 
 		{#if maze}
 			<div class="mt-4 flex flex-col gap-3">
