@@ -101,8 +101,8 @@ function isValidCoordinates({
 }): boolean {
 	return (
 		coordinates.i >= 0 &&
-		coordinates.i < maze.cells[0].length - 1 &&
+		coordinates.i < maze.cells[0].length &&
 		coordinates.j >= 0 &&
-		coordinates.j < maze.cells.length - 1
+		coordinates.j < maze.cells.length
 	);
 }

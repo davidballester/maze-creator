@@ -18,9 +18,11 @@
 		getAdjacents({ maze, cellCoordinates: currentCellCoordinates })
 	);
 	let movementsLeft: number = $state(maze.timer.maxMoves);
-	let disableNavigation: boolean = $derived(maze.timer.enabled && movementsLeft <= 0);
 	let isFinalCell = $derived(
 		currentCellCoordinates.i === maze.endingCell.i && currentCellCoordinates.j === maze.endingCell.j
+	);
+	let disableNavigation: boolean = $derived(
+		(maze.timer.enabled && movementsLeft <= 0) || isFinalCell
 	);
 	let isGameOver = $derived(disableNavigation && !isFinalCell);
 
