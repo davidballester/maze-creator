@@ -18,6 +18,13 @@
 				<Github color="var(--color-stone-100)" class="w-6" />
 				<span class="text-base">David Ballester Mena</span>
 			</a>
+			<a
+				href="https://freesound.org/people/StarNinjas37/sounds/506909/"
+				class="text-xs"
+				target="_blank"
+			>
+				Heartbeat sound effect by StarNinjas37 - FreeSound.org
+			</a>
 		</footer>
 	</div>
 </div>

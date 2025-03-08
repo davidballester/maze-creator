@@ -5,6 +5,7 @@
 	import { fade } from 'svelte/transition';
 	import type { PageProps } from './$types';
 	import MovementsLeft from '$lib/components/explore/movementsLeft.svelte';
+	import SoundIndicator from '$lib/components/explore/soundIndicator.svelte';
 
 	const transitionDuration = 200;
 
@@ -16,7 +17,7 @@
 	let adjacent: { [orientation in Orientation]: Adjacent } = $derived.by(() =>
 		getAdjacents({ maze, cellCoordinates: currentCellCoordinates })
 	);
-	let movementsLeft: number = $state(2);
+	let movementsLeft: number = $state(maze.timer.maxMoves);
 	let disableNavigation: boolean = $derived(maze.timer.enabled && movementsLeft <= 0);
 	let isFinalCell = $derived(
 		currentCellCoordinates.i === maze.endingCell.i && currentCellCoordinates.j === maze.endingCell.j
@@ -43,10 +44,13 @@
 	</header>
 
 	<div class="mt-8 flex grow-1 flex-col items-center">
-		{#if maze.timer.enabled && maze.timer.display}
-			<div class="mb-4">
-				<MovementsLeft {movementsLeft} />
-			</div>
+		{#if maze.timer.enabled}
+			<SoundIndicator progress={1 - movementsLeft / maze.timer.maxMoves} />
+			{#if maze.timer.display}
+				<div class="mb-4">
+					<MovementsLeft {movementsLeft} />
+				</div>
+			{/if}
 		{/if}
 		{#if showCell}
 			<div
