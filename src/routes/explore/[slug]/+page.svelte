@@ -4,7 +4,7 @@
 	import type { Orientation } from '$lib/orientation';
 	import { fade } from 'svelte/transition';
 	import type { PageProps } from './$types';
-	import LinkButton from '$lib/components/ui/linkButton.svelte';
+	import MovementsLeft from '$lib/components/explore/movementsLeft.svelte';
 
 	const transitionDuration = 200;
 
@@ -16,12 +16,14 @@
 	let adjacent: { [orientation in Orientation]: Adjacent } = $derived.by(() =>
 		getAdjacents({ maze, cellCoordinates: currentCellCoordinates })
 	);
+	let movementsLeft: number = $state(maze.timer.maxMoves);
 
 	function goInDirection(direction: Orientation): void {
 		const landingCoordinates = go({ maze, from: currentCellCoordinates, direction });
 		if (!landingCoordinates) {
 			return;
 		}
+		movementsLeft -= 1;
 		showCell = false;
 		setTimeout(() => {
 			currentCellCoordinates = landingCoordinates;
@@ -35,7 +37,12 @@
 		<h1 class="text-center text-6xl">{maze.title || 'Maze'}</h1>
 	</header>
 
-	<div class="mt-8 flex grow-1 justify-center">
+	<div class="mt-8 flex grow-1 flex-col items-center">
+		{#if maze.timer.enabled && maze.timer.display}
+			<div class="mb-4">
+				<MovementsLeft {movementsLeft} />
+			</div>
+		{/if}
 		{#if showCell}
 			<div transition:fade={{ duration: transitionDuration }}>
 				<ExploreCell cell={currentCell} go={goInDirection} {adjacent} />
