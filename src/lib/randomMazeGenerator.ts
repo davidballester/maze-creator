@@ -8,7 +8,7 @@ type MazeCellUnderContruction = {
 };
 type MazeUnderConstruction = MazeCellUnderContruction[][];
 
-export function generateMaze({ width, height }: { width: number; height: number }): Maze {
+export function generateMaze({ width, height }: { width: number; height: number }): Partial<Maze> {
 	if (width < 1 || height < 1) {
 		throw new Error('invalid size');
 	}
@@ -25,8 +25,7 @@ export function generateMaze({ width, height }: { width: number; height: number 
 			nextCell.visited = true;
 		}
 	}
-	const maze: Maze = {
-		title: '',
+	const maze: Partial<Maze> = {
 		cells: mazeUnderConstruction.map((row) => row.map(({ walls }) => walls)),
 		startingCell: { i: 0, j: 0 },
 		endingCell: { i: height - 1, j: width - 1 }

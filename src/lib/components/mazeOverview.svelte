@@ -1,15 +1,9 @@
 <script lang="ts">
 	import type { Maze, MazeCellCoordinates } from '$lib/maze';
-	import { getMazeSolution } from '$lib/mazeSolver';
 	import type { Orientation } from '$lib/orientation';
 	import MazeOverviewCell from './mazeOverviewCell.svelte';
 
-	let { maze }: { maze: Maze } = $props();
-	let mazeSolution: MazeCellCoordinates[] = $derived(
-		getMazeSolution({
-			maze
-		})
-	);
+	let { maze, mazeSolution = [] }: { maze: Maze; mazeSolution: MazeCellCoordinates[] } = $props();
 
 	function getSolutionOrientation({ i, j }: MazeCellCoordinates): 'none' | Orientation {
 		const mazeSolutionIndex = mazeSolution.findIndex((cell) => cell.i === i && cell.j === j);
@@ -33,7 +27,7 @@
 	}
 </script>
 
-<div class="flex justify-center overflow-hidden p-2">
+<div class="flex flex-col items-center gap-4 overflow-hidden p-2">
 	<div class="w-content overflow-x-auto pt-4 pr-2 pb-4 pl-2">
 		<table>
 			<tbody>
@@ -56,5 +50,8 @@
 				{/each}
 			</tbody>
 		</table>
+	</div>
+	<div class="text-center">
+		<p><strong>Solution length</strong>: {mazeSolution.length}</p>
 	</div>
 </div>

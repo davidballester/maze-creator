@@ -3,10 +3,12 @@
 	import type { Snippet } from 'svelte';
 	import { slide } from 'svelte/transition';
 
-	let { title, children, initial }: { title: string; children: Snippet<[]>; initial: boolean } =
-		$props();
-
-	let open: boolean = $state(initial);
+	let {
+		title,
+		children,
+		open,
+		onToggle
+	}: { title: string; children: Snippet<[]>; open: boolean; onToggle: () => void } = $props();
 </script>
 
 <div
@@ -14,7 +16,7 @@
 >
 	<button
 		class="flex w-full cursor-pointer flex-row items-center pt-2 pb-2 text-left text-base font-bold outline-none"
-		onclick={() => (open = !open)}
+		onclick={onToggle}
 	>
 		<span class="flex-1">
 			{title}

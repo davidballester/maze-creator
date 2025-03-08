@@ -12,6 +12,11 @@ export interface Maze {
 	cells: MazeCell[][];
 	startingCell: MazeCellCoordinates;
 	endingCell: MazeCellCoordinates;
+	timer: {
+		enabled: boolean;
+		maxMoves: number;
+		display: boolean;
+	};
 }
 export type Adjacent = 'none' | 'wall' | 'start' | 'end';
 

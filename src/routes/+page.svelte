@@ -1,13 +1,17 @@
 <script lang="ts">
-	import type { Maze } from '$lib/maze';
+	import type { Maze, MazeCellCoordinates } from '$lib/maze';
 	import { generateMaze } from '$lib/randomMazeGenerator';
 	import { onMount } from 'svelte';
 	import Input from '$lib/components/ui/input.svelte';
-	import Button from '$lib/components/ui/button.svelte';
 	import MazeOverview from '$lib/components/mazeOverview.svelte';
 	import LinkButton from '$lib/components/ui/linkButton.svelte';
 	import { compressToURIComponent } from '$lib/compress';
 	import Accordion from '$lib/components/ui/accordion.svelte';
+	import { getMazeSolution } from '$lib/mazeSolver';
+	import MazeLayout from '$lib/components/create/mazeLayout.svelte';
+	import MazeConfig from '$lib/components/create/mazeConfig.svelte';
+
+	type AccordionItem = 'layout' | 'config' | null;
 
 	const MIN_WIDTH = 3;
 	const MAX_WIDTH = 15;
@@ -20,16 +24,35 @@
 		cells: [],
 		title: '',
 		startingCell: { i: 0, j: 0 },
-		endingCell: { i: 0, j: 0 }
+		endingCell: { i: 0, j: 0 },
+		timer: {
+			enabled: false,
+			maxMoves: 0,
+			display: false
+		}
 	});
+	let mazeSolution: MazeCellCoordinates[] = $derived(
+		getMazeSolution({
+			maze
+		})
+	);
+	let currentAccordionItem: AccordionItem = $state('layout');
 
 	onMount(onGenerateMaze);
 
 	function onGenerateMaze() {
 		maze = {
-			...generateMaze({ width, height }),
-			title: maze.title
+			...maze,
+			...generateMaze({ width, height })
 		};
+	}
+
+	function toggleAccordion(accordionItem: AccordionItem): void {
+		if (currentAccordionItem === accordionItem) {
+			currentAccordionItem = null;
+		} else {
+			currentAccordionItem = accordionItem;
+		}
 	}
 </script>
 
@@ -42,30 +65,53 @@
 		explore your maze!
 	</p>
 	<div class="mt-8 p-4">
-		<Input label="Title" type="string" bind:value={maze.title} />
-		<Accordion title="Layout" initial={true}>
-			<Input
-				label="Width"
-				type="number"
-				bind:value={width}
-				onblur={() => (width = Math.max(MIN_WIDTH, Math.min(width, MAX_WIDTH)))}
-				min={MIN_WIDTH}
-				max={MAX_WIDTH}
+		<Input
+			label="Title"
+			type="string"
+			value={maze.title}
+			onchange={(evt: any) => (maze.title = evt.currentTarget.value)}
+		/>
+		<Accordion
+			title="Layout"
+			open={currentAccordionItem === 'layout'}
+			onToggle={() => toggleAccordion('layout')}
+		>
+			<MazeLayout
+				{height}
+				setHeight={(newHeight) => (height = newHeight)}
+				minHeight={MIN_HEIGHT}
+				maxHeight={MAX_HEIGHT}
+				{width}
+				setWidth={(newWidth) => (width = newWidth)}
+				minWidth={MIN_WIDTH}
+				maxWidth={MAX_WIDTH}
+				onGenerate={onGenerateMaze}
 			/>
-			<Input
-				label="Height"
-				type="number"
-				bind:value={height}
-				onblur={() => (height = Math.max(MIN_HEIGHT, Math.min(height, MAX_HEIGHT)))}
-				min={MIN_HEIGHT}
-				max={MAX_HEIGHT}
+		</Accordion>
+		<Accordion
+			title="Config"
+			open={currentAccordionItem === 'config'}
+			onToggle={() => toggleAccordion('config')}
+		>
+			<MazeConfig
+				timerEnabled={maze.timer.enabled}
+				setTimerEnabled={(timerEnabled) => {
+					if (timerEnabled) {
+						maze.timer.maxMoves = mazeSolution.length;
+					}
+					maze.timer.enabled = timerEnabled;
+				}}
+				maxMoves={maze.timer.maxMoves}
+				minMaxMoves={mazeSolution.length}
+				setMaxMoves={(maxMoves) => (maze.timer.maxMoves = maxMoves)}
+				display={maze.timer.display}
+				setDisplay={(display) => (maze.timer.display = display)}
 			/>
-			<Button onclick={onGenerateMaze}>Generate</Button>
 		</Accordion>
 
 		{#if maze}
 			<div class="mt-4 flex flex-col gap-3">
-				<MazeOverview {maze} />
+				<MazeOverview {maze} {mazeSolution} />
 				<LinkButton href={`/explore/${compressToURIComponent(maze)}`}>Explore</LinkButton>
 			</div>
 		{/if}
