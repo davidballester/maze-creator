@@ -16,8 +16,12 @@
 	let adjacent: { [orientation in Orientation]: Adjacent } = $derived.by(() =>
 		getAdjacents({ maze, cellCoordinates: currentCellCoordinates })
 	);
-	let movementsLeft: number = $state(maze.timer.maxMoves);
+	let movementsLeft: number = $state(2);
 	let disableNavigation: boolean = $derived(maze.timer.enabled && movementsLeft <= 0);
+	let isFinalCell = $derived(
+		currentCellCoordinates.i === maze.endingCell.i && currentCellCoordinates.j === maze.endingCell.j
+	);
+	let isGameOver = $derived(disableNavigation && !isFinalCell);
 
 	function goInDirection(direction: Orientation): void {
 		const landingCoordinates = go({ maze, from: currentCellCoordinates, direction });
@@ -45,8 +49,19 @@
 			</div>
 		{/if}
 		{#if showCell}
-			<div transition:fade={{ duration: transitionDuration }}>
+			<div
+				transition:fade={{ duration: transitionDuration }}
+				class={disableNavigation && !isFinalCell ? 'blur-md' : ''}
+			>
 				<ExploreCell cell={currentCell} go={goInDirection} {adjacent} {disableNavigation} />
+			</div>
+		{/if}
+		{#if isGameOver}
+			<div
+				transition:fade
+				class="absolute top-[30%] left-[50%] translate-x-[-50%] text-center text-3xl md:text-5xl"
+			>
+				Your journey ends here
 			</div>
 		{/if}
 	</div>
