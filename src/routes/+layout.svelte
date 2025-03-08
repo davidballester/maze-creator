@@ -13,13 +13,10 @@
 		>
 			{@render children()}
 		</div>
-		<footer class="flex flex-col items-center gap-4 p-4">
-			<a href="https://github.com/davidballester/maze-creator" class="flex gap-3">
+		<footer class="flex flex-col items-center gap-2 p-4">
+			<a href="https://github.com/davidballester/maze-creator" class="mb-4 flex gap-3">
 				<Github color="var(--color-stone-100)" class="w-6" />
 				<span class="text-base">David Ballester Mena</span>
-			</a>
-			<a href="https://www.flaticon.es/iconos-gratis/huella" class="text-xs">
-				Footprints icon by Vitaly Gorbachev - Flaticon
 			</a>
 		</footer>
 	</div>

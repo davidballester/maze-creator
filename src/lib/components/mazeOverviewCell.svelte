@@ -1,18 +1,20 @@
 <script lang="ts">
 	import type { MazeCell } from '$lib/maze';
-	import footprintsImage from '$lib/assets/footprints.png';
 	import type { Orientation } from '$lib/orientation';
+	import { LucideFootprints } from 'lucide-svelte';
 
 	let { cell, solutionOrientation }: { cell: MazeCell; solutionOrientation: 'none' | Orientation } =
 		$props();
 
 	let borders = $derived.by(() => {
 		const classes = [];
-		const bordersPerDirection = ['t', 'r', 'b', 'l'];
-		const borderClasses = cell
-			.map((wall, i) => (wall ? bordersPerDirection[i] : ''))
-			.filter(Boolean)
-			.map((border) => `border-${border}-stone-100`);
+		const borders = [
+			'border-t-stone-100',
+			'border-r-stone-100',
+			'border-b-stone-100',
+			'border-l-stone-100'
+		];
+		const borderClasses = cell.map((wall, i) => (wall ? borders[i] : '')).filter(Boolean);
 		classes.push(...borderClasses);
 		return classes.join(' ');
 	});
@@ -36,19 +38,11 @@
 </script>
 
 <td class={`${borders} border-6 border-transparent select-none`}>
-	<!-- This will preload the dynamic Tailwind styles -->
-	<div
-		class="hidden rotate-90 rotate-180 rotate-270 border-t-stone-100 border-r-stone-100 border-b-stone-100 border-l-stone-100"
-	></div>
 	<div class="flex h-[24px] w-[24px] justify-center align-middle">
 		{#if solutionOrientation !== 'none'}
-			<img
-				alt="steps"
-				src={footprintsImage}
-				class={`m-auto max-w-[unset] ${rotationClass}`}
-				width="16"
-				height="16"
-			/>
+			<div class={`${rotationClass}`}>
+				<LucideFootprints size={20} />
+			</div>
 		{/if}
 	</div>
 </td>

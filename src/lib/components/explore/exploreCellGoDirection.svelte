@@ -1,6 +1,6 @@
 <script lang="ts">
-	import footprintsImage from '$lib/assets/footprints.png';
 	import type { Orientation } from '$lib/orientation';
+	import { LucideFootprints } from 'lucide-svelte';
 
 	const {
 		orientation,
@@ -29,5 +29,7 @@
 	class={`absolute top-0 left-0 flex h-full w-full cursor-pointer justify-center align-middle ${clazz}`}
 	{...restOfProps}
 >
-	<img alt="steps" src={footprintsImage} class={`m-auto w-10 ${rotationClass}`} />
+	<div class={`m-auto ${rotationClass}`}>
+		<LucideFootprints size={40} />
+	</div>
 </button>
