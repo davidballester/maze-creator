@@ -7,11 +7,13 @@
 	let {
 		cell,
 		go,
-		adjacent
+		adjacent,
+		disableNavigation
 	}: {
 		cell: MazeCell;
 		go: (direction: Orientation) => void;
 		adjacent: { [direction in Orientation]: Adjacent };
+		disableNavigation: boolean;
 	} = $props();
 	let walls: string = $derived.by(() => {
 		const directions = ['north', 'east', 'south', 'west'];
@@ -25,23 +27,43 @@
 		<tr class="h-[20%]">
 			<td id="north-west" class="w-[20%]"></td>
 			<td id="north" class="relative w-[60%]">
-				<ExploreCellDirection adjacent={adjacent.north} direction="north" go={() => go('north')} />
+				<ExploreCellDirection
+					adjacent={adjacent.north}
+					direction="north"
+					go={() => go('north')}
+					{disableNavigation}
+				/>
 			</td>
 			<td id="north-east" class="w-[20%]"></td>
 		</tr>
 		<tr class="h-[60%]">
 			<td id="west" class="relative w-[20%]">
-				<ExploreCellDirection adjacent={adjacent.west} direction="west" go={() => go('west')} />
+				<ExploreCellDirection
+					adjacent={adjacent.west}
+					direction="west"
+					go={() => go('west')}
+					{disableNavigation}
+				/>
 			</td>
 			<td id="center" class="w-[60%]"></td>
 			<td id="east" class="relative w-[20%]">
-				<ExploreCellDirection adjacent={adjacent.east} direction="east" go={() => go('east')} />
+				<ExploreCellDirection
+					adjacent={adjacent.east}
+					direction="east"
+					go={() => go('east')}
+					{disableNavigation}
+				/>
 			</td>
 		</tr>
 		<tr class="h-[20%]">
 			<td id="south-west" class="w-[20%]"></td>
 			<td id="south" class="relative w-[60%]">
-				<ExploreCellDirection adjacent={adjacent.south} direction="south" go={() => go('south')} />
+				<ExploreCellDirection
+					adjacent={adjacent.south}
+					direction="south"
+					go={() => go('south')}
+					{disableNavigation}
+				/>
 			</td>
 			<td id="south-east" class="w-[20%]"></td>
 		</tr>

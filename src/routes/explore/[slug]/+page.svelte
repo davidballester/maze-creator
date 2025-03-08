@@ -17,6 +17,7 @@
 		getAdjacents({ maze, cellCoordinates: currentCellCoordinates })
 	);
 	let movementsLeft: number = $state(maze.timer.maxMoves);
+	let disableNavigation: boolean = $derived(maze.timer.enabled && movementsLeft <= 0);
 
 	function goInDirection(direction: Orientation): void {
 		const landingCoordinates = go({ maze, from: currentCellCoordinates, direction });
@@ -45,7 +46,7 @@
 		{/if}
 		{#if showCell}
 			<div transition:fade={{ duration: transitionDuration }}>
-				<ExploreCell cell={currentCell} go={goInDirection} {adjacent} />
+				<ExploreCell cell={currentCell} go={goInDirection} {adjacent} {disableNavigation} />
 			</div>
 		{/if}
 	</div>
