@@ -47,12 +47,12 @@
 
 	<div class="mt-8 flex grow-1 flex-col items-center">
 		{#if maze.timer.enabled}
-			<SoundIndicator progress={1 - movementsLeft / maze.timer.maxMoves} />
-			{#if maze.timer.display}
-				<div class="mb-4">
+			<div class="mb-4 flex flex-row items-center gap-3">
+				{#if maze.timer.display}
 					<MovementsLeft {movementsLeft} />
-				</div>
-			{/if}
+				{/if}
+				<SoundIndicator progress={1 - movementsLeft / maze.timer.maxMoves} />
+			</div>
 		{/if}
 		{#if showCell}
 			<div

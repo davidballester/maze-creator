@@ -1,5 +1,6 @@
 <script lang="ts">
 	import heartbeat from '$lib/assets/heartbeat.ogg';
+	import { LucideVolume2, LucideVolumeOff } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	const MIN_VOLUME = 0.05;
@@ -9,6 +10,7 @@
 
 	let { progress }: { progress: number } = $props();
 	let audio: HTMLMediaElement;
+	let muted: boolean = $state(false);
 	let volume = $derived.by(() => {
 		if (progress === 0 || isNaN(progress)) {
 			return MIN_VOLUME;
@@ -45,4 +47,11 @@
 	}
 </script>
 
-<audio src={heartbeat} class="hidden" bind:this={audio}></audio>
+<audio src={heartbeat} class="hidden" bind:this={audio} {muted}></audio>
+<button onclick={() => (muted = !muted)} class="cursor-pointer p-4">
+	{#if muted}
+		<LucideVolumeOff />
+	{:else}
+		<LucideVolume2 />
+	{/if}
+</button>
