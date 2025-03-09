@@ -37,12 +37,11 @@
 	let currentAccordionItem: AccordionItem = $state('layout');
 
 	function onGenerateMaze() {
-		const seed = getRandomSeed();
-		maze = {
-			...maze,
-			seed,
-			...generateMaze({ width, height, seed })
-		};
+		const mazeSeed = getMazeSeed(maze);
+		mazeSeed.seed = getRandomSeed();
+		mazeSeed.width = width;
+		mazeSeed.height = height;
+		maze = generateMaze(mazeSeed);
 	}
 
 	function toggleAccordion(accordionItem: AccordionItem): void {

@@ -6,7 +6,7 @@
 
 	const { data }: PageProps = $props();
 	const mazeSeed = data.mazeSeed;
-	let maze: Maze = $state({ ...mazeSeed, cells: [], ...generateMaze(mazeSeed) });
+	let maze: Maze = $state(generateMaze(mazeSeed));
 </script>
 
 <MazeCreation bind:maze />

@@ -12,7 +12,7 @@
 
 	let { data }: PageProps = $props();
 	const mazeSeed = data.mazeSeed;
-	const maze: Maze = { ...mazeSeed, cells: [], ...generateMaze(mazeSeed) };
+	const maze: Maze = generateMaze(mazeSeed);
 	let showCell: boolean = $state(true);
 	let currentCellCoordinates = $state(maze.startingCell);
 	let currentCell = $derived(getCell({ maze, cellCoordinates: currentCellCoordinates }));

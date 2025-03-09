@@ -1,4 +1,4 @@
-import type { Maze, WallBoolean } from './maze';
+import type { Maze, MazeSeed, WallBoolean } from './maze';
 import seedrandom from 'seedrandom';
 
 type MazeCellUnderContruction = {
@@ -9,15 +9,8 @@ type MazeCellUnderContruction = {
 };
 type MazeUnderConstruction = MazeCellUnderContruction[][];
 
-export function generateMaze({
-	width,
-	height,
-	seed
-}: {
-	width: number;
-	height: number;
-	seed: string;
-}): Partial<Maze> {
+export function generateMaze(mazeSeed: MazeSeed): Maze {
+	const { width, height, seed } = mazeSeed;
 	if (width < 1 || height < 1) {
 		throw new Error('invalid size');
 	}
@@ -35,7 +28,8 @@ export function generateMaze({
 			nextCell.visited = true;
 		}
 	}
-	const maze: Partial<Maze> = {
+	const maze: Maze = {
+		...mazeSeed,
 		cells: mazeUnderConstruction.map((row) => row.map(({ walls }) => walls)),
 		startingCell: { i: 0, j: 0 },
 		endingCell: { i: height - 1, j: width - 1 }
