@@ -15,7 +15,7 @@
 	const maze: Maze = generateMaze(mazeSeed);
 	let showCell: boolean = $state(true);
 	let currentCellCoordinates = $state(maze.startingCell);
-	let currentCell = $derived(getCell({ maze, cellCoordinates: currentCellCoordinates }));
+	let currentCell = $derived({ ...getCell({ maze, cellCoordinates: currentCellCoordinates }) });
 	let adjacent: { [orientation in Orientation]: Adjacent } = $derived.by(() =>
 		getAdjacents({ maze, cellCoordinates: currentCellCoordinates })
 	);
@@ -61,7 +61,16 @@
 				transition:fade={{ duration: transitionDuration }}
 				class={disableNavigation && !isFinalCell ? 'blur-md' : ''}
 			>
-				<ExploreCell cell={currentCell} go={goInDirection} {adjacent} {disableNavigation} />
+				<ExploreCell
+					cell={currentCell}
+					go={goInDirection}
+					{adjacent}
+					{disableNavigation}
+					onUnlock={() => {
+						currentCell.interaction!.blocksDirection = {};
+						currentCellCoordinates = { ...currentCellCoordinates };
+					}}
+				/>
 			</div>
 		{/if}
 		{#if isGameOver}
