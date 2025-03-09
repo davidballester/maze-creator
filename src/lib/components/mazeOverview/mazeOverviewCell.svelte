@@ -3,8 +3,15 @@
 	import type { Orientation } from '$lib/orientation';
 	import { LucideFootprints } from 'lucide-svelte';
 
-	let { cell, solutionOrientation }: { cell: MazeCell; solutionOrientation: 'none' | Orientation } =
-		$props();
+	let {
+		cell,
+		solutionOrientation,
+		onInteraction
+	}: {
+		cell: MazeCell;
+		solutionOrientation: 'none' | Orientation;
+		onInteraction?: (cell: MazeCell) => void;
+	} = $props();
 
 	let borders = $derived.by(() => {
 		const classes = [];
@@ -37,7 +44,10 @@
 	});
 </script>
 
-<td class={`${borders} border-6 border-transparent select-none`}>
+<td
+	class={`${borders} border-6 border-transparent transition-all duration-200 select-none ${onInteraction ? 'hover:cursor-pointer hover:bg-stone-600' : ''} ${cell.interaction ? 'bg-stone-600' : ''}`}
+	onclick={() => onInteraction?.(cell)}
+>
 	<div class="flex h-[24px] w-[24px] justify-center align-middle">
 		{#if solutionOrientation !== 'none'}
 			<div class={`${rotationClass}`}>

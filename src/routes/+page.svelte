@@ -16,7 +16,8 @@
 		startingCell: { i: 0, j: 0 },
 		endingCell: { i: 0, j: 0 },
 		width: 8,
-		height: 8
+		height: 8,
+		interactions: []
 	});
 
 	onMount(() => {

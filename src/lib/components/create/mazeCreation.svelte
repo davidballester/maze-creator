@@ -1,14 +1,16 @@
 <script lang="ts">
 	import {
+		getAdjacents,
 		getMazeSeed,
 		getRandomSeed,
 		type Maze,
+		type MazeCell,
 		type MazeCellCoordinates,
 		type MazeSeed
 	} from '$lib/maze';
 	import { generateMaze } from '$lib/randomMazeGenerator';
 	import Input from '$lib/components/ui/input.svelte';
-	import MazeOverview from '$lib/components/mazeOverview.svelte';
+	import MazeOverview from '$lib/components/mazeOverview/mazeOverview.svelte';
 	import LinkButton from '$lib/components/ui/linkButton.svelte';
 	import { compressToURIComponent } from '$lib/compress';
 	import Accordion from '$lib/components/ui/accordion.svelte';
@@ -16,6 +18,10 @@
 	import MazeLayout from '$lib/components/create/mazeLayout.svelte';
 	import MazeConfig from '$lib/components/create/mazeConfig.svelte';
 	import { MAZE_CREATION_COMPRESSION_SHIFT } from '$lib/constants';
+	import { fade } from 'svelte/transition';
+	import InteractionDialog from './interactionDialog.svelte';
+	import Button from '../ui/button.svelte';
+	import Dialog from '../ui/dialog.svelte';
 
 	let { maze = $bindable() }: { maze: Maze } = $props();
 
@@ -35,12 +41,15 @@
 	);
 	let mazeSeed: MazeSeed = $derived(getMazeSeed(maze));
 	let currentAccordionItem: AccordionItem = $state('layout');
+	let interactionDialogCell: MazeCell | undefined = $state(undefined);
+	let showGenerateMazeConfirmationDialog: boolean = $state(false);
 
 	function onGenerateMaze() {
 		const mazeSeed = getMazeSeed(maze);
 		mazeSeed.seed = getRandomSeed();
 		mazeSeed.width = width;
 		mazeSeed.height = height;
+		mazeSeed.interactions = [];
 		maze = generateMaze(mazeSeed);
 	}
 
@@ -58,6 +67,13 @@
 			'',
 			`${window.location.origin}/${compressToURIComponent(mazeSeed, MAZE_CREATION_COMPRESSION_SHIFT)}`
 		);
+	}
+
+	function onInteraction(cell: MazeCell): void {
+		cell.interaction ??= {
+			text: ''
+		};
+		interactionDialogCell = cell;
 	}
 </script>
 
@@ -94,8 +110,13 @@
 				minWidth={MIN_WIDTH}
 				maxWidth={MAX_WIDTH}
 				onGenerate={() => {
-					onGenerateMaze();
-					updateURL();
+					showGenerateMazeConfirmationDialog = maze.cells
+						.flat()
+						.some(({ interaction }) => !!interaction);
+					if (!showGenerateMazeConfirmationDialog) {
+						onGenerateMaze();
+						updateURL();
+					}
 				}}
 			/>
 		</Accordion>
@@ -129,10 +150,54 @@
 
 		{#if maze}
 			<div class="mt-4 flex flex-col gap-3">
-				<MazeOverview {maze} {mazeSolution} />
+				<MazeOverview {maze} {mazeSolution} {onInteraction} />
 				<LinkButton href={`/explore/${compressToURIComponent(mazeSeed)}`} data-sveltekit-reload>
 					Explore
 				</LinkButton>
+			</div>
+		{/if}
+
+		{#if interactionDialogCell}
+			<div transition:fade={{ duration: 100 }}>
+				<InteractionDialog
+					initialInteraction={interactionDialogCell.interaction || { text: '' }}
+					adjacents={getAdjacents({ maze, cellCoordinates: interactionDialogCell })}
+					onSave={(interaction) => {
+						interactionDialogCell!.interaction = interaction;
+						interactionDialogCell = undefined;
+						updateURL();
+					}}
+					onDelete={() => {
+						interactionDialogCell!.interaction = undefined;
+						interactionDialogCell = undefined;
+						updateURL();
+					}}
+				/>
+			</div>
+		{/if}
+
+		{#if showGenerateMazeConfirmationDialog}
+			<div transition:fade={{ duration: 100 }}>
+				<Dialog>
+					<p class="mb-4">
+						If you generate a new maze, the interactive cells you have created so far will be
+						deleted. Are you sure?
+					</p>
+					<footer class="flex flex-row items-center justify-end gap-4 self-end">
+						<Button
+							onclick={() => {
+								onGenerateMaze();
+								updateURL();
+								showGenerateMazeConfirmationDialog = false;
+							}}
+						>
+							Yes
+						</Button>
+						<Button onclick={() => (showGenerateMazeConfirmationDialog = false)} variant="main">
+							No
+						</Button>
+					</footer>
+				</Dialog>
 			</div>
 		{/if}
 	</div>

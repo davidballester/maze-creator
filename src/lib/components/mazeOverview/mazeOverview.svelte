@@ -1,9 +1,17 @@
 <script lang="ts">
-	import type { Maze, MazeCellCoordinates } from '$lib/maze';
+	import type { Maze, MazeCell, MazeCellCoordinates } from '$lib/maze';
 	import type { Orientation } from '$lib/orientation';
 	import MazeOverviewCell from './mazeOverviewCell.svelte';
 
-	let { maze, mazeSolution = [] }: { maze: Maze; mazeSolution: MazeCellCoordinates[] } = $props();
+	let {
+		maze,
+		mazeSolution = [],
+		onInteraction
+	}: {
+		maze: Maze;
+		mazeSolution: MazeCellCoordinates[];
+		onInteraction?: (cell: MazeCell) => void;
+	} = $props();
 
 	function getSolutionOrientation({ i, j }: MazeCellCoordinates): 'none' | Orientation {
 		const mazeSolutionIndex = mazeSolution.findIndex((cell) => cell.i === i && cell.j === j);
@@ -33,25 +41,36 @@
 			<tbody>
 				{#each maze.cells as rowCells, i}
 					<tr>
-						<td>
-							{#if i === 0}
-								<MazeOverviewCell cell={{ walls: [0, 0, 0, 0] }} solutionOrientation={'east'} />
-							{/if}
-						</td>
+						{#if i === 0}
+							<MazeOverviewCell
+								cell={{ i: 0, j: 0, walls: [0, 0, 0, 0] }}
+								solutionOrientation={'east'}
+							/>
+						{:else}
+							<td></td>
+						{/if}
 						{#each rowCells as cell, j}
-							<MazeOverviewCell {cell} solutionOrientation={getSolutionOrientation({ i, j })} />
+							<MazeOverviewCell
+								{cell}
+								solutionOrientation={getSolutionOrientation({ i, j })}
+								{onInteraction}
+							/>
 						{/each}
-						<td>
-							{#if i === maze.cells.length - 1}
-								<MazeOverviewCell cell={{ walls: [0, 0, 0, 0] }} solutionOrientation={'east'} />
-							{/if}
-						</td>
+						{#if i === maze.cells.length - 1}
+							<MazeOverviewCell
+								cell={{ i, j: maze.cells[0].length - 1, walls: [0, 0, 0, 0] }}
+								solutionOrientation={'east'}
+							/>
+						{:else}
+							<td></td>
+						{/if}
 					</tr>
 				{/each}
 			</tbody>
 		</table>
 	</div>
 	<div class="text-center">
+		<p class="pb-4 text-xs">Click on a cell to add custom interaction.</p>
 		<p><strong>Solution length</strong>: {mazeSolution.length}</p>
 	</div>
 </div>

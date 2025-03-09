@@ -1,4 +1,4 @@
-import type { Maze, MazeSeed, WallBoolean } from './maze';
+import { fillFromSeed, type Maze, type MazeSeed, type WallBoolean } from './maze';
 import seedrandom from 'seedrandom';
 
 type MazeCellUnderContruction = {
@@ -30,11 +30,11 @@ export function generateMaze(mazeSeed: MazeSeed): Maze {
 	}
 	const maze: Maze = {
 		...mazeSeed,
-		cells: mazeUnderConstruction.map((row) => row.map(({ walls }) => ({ walls }))),
+		cells: mazeUnderConstruction.map((row, i) => row.map(({ walls }, j) => ({ walls, i, j }))),
 		startingCell: { i: 0, j: 0 },
 		endingCell: { i: height - 1, j: width - 1 }
 	};
-	return maze;
+	return fillFromSeed({ maze, mazeSeed });
 }
 
 function generateInitialMaze({

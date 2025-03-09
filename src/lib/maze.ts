@@ -1,13 +1,14 @@
 import type { Orientation } from './orientation';
 
 export type WallBoolean = 0 | 1;
-// North, East, South, West
-export type MazeCell = {
-	walls: [WallBoolean, WallBoolean, WallBoolean, WallBoolean];
-};
 export interface MazeCellCoordinates {
 	i: number;
 	j: number;
+}
+export interface MazeCell extends MazeCellCoordinates {
+	// North, East, South, West
+	walls: [WallBoolean, WallBoolean, WallBoolean, WallBoolean];
+	interaction?: Interaction;
 }
 export interface MazeSeed {
 	title: string;
@@ -21,11 +22,21 @@ export interface MazeSeed {
 		maxMoves: number;
 		display: boolean;
 	};
+	interactions: InteractionSeed[];
+}
+interface InteractionSeed {
+	globalCellIndex: number;
+	interaction: Interaction;
 }
 export interface Maze extends MazeSeed {
 	cells: MazeCell[][];
 }
 export type Adjacent = 'none' | 'wall' | 'start' | 'end';
+export interface Interaction {
+	text: string;
+	blocksDirection?: { [direction in Orientation]?: boolean };
+	password?: string;
+}
 
 export function getRandomSeed(): string {
 	return String(Math.round(Math.random() * 1e9));
@@ -41,8 +52,19 @@ export function getMazeSeed(maze: Maze): MazeSeed {
 		endingCell: maze.endingCell,
 		timer: {
 			...maze.timer
-		}
+		},
+		interactions: maze.cells
+			.flat()
+			.map((cell, index) => ({ globalCellIndex: index, interaction: cell.interaction }))
+			.filter(({ interaction }) => !!interaction) as InteractionSeed[]
 	};
+}
+
+export function fillFromSeed({ maze, mazeSeed }: { maze: Maze; mazeSeed: MazeSeed }): Maze {
+	for (const interactionSeed of mazeSeed.interactions) {
+		maze.cells.flat()[interactionSeed.globalCellIndex].interaction = interactionSeed.interaction;
+	}
+	return maze;
 }
 
 export function getCell({
