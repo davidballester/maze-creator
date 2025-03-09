@@ -1,14 +1,14 @@
 import pkg from 'lz-string';
 const { compressToEncodedURIComponent, decompressFromEncodedURIComponent } = pkg;
-import type { Maze } from './maze';
+import type { MazeSeed } from './maze';
 
-export function compressToURIComponent(maze: Maze, shift: number = 0): string {
+export function compressToURIComponent(maze: MazeSeed, shift: number = 0): string {
 	const stringifiedMaze = JSON.stringify(maze);
 	const shiftedStringifiedMaze = applyShift(stringifiedMaze, shift);
 	return compressToEncodedURIComponent(shiftedStringifiedMaze);
 }
 
-export function decompressFromURIComponent(maze: string, shift: number = 0): Maze {
+export function decompressFromURIComponent(maze: string, shift: number = 0): MazeSeed {
 	const shiftedStringifiedMaze = decompressFromEncodedURIComponent(maze);
 	const stringifiedMaze = applyShift(shiftedStringifiedMaze, shift);
 	return JSON.parse(stringifiedMaze);

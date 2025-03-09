@@ -7,9 +7,11 @@ export interface MazeCellCoordinates {
 	i: number;
 	j: number;
 }
-export interface Maze {
+export interface MazeSeed {
 	title: string;
-	cells: MazeCell[][];
+	width: number;
+	height: number;
+	seed: string;
 	startingCell: MazeCellCoordinates;
 	endingCell: MazeCellCoordinates;
 	timer: {
@@ -18,7 +20,28 @@ export interface Maze {
 		display: boolean;
 	};
 }
+export interface Maze extends MazeSeed {
+	cells: MazeCell[][];
+}
 export type Adjacent = 'none' | 'wall' | 'start' | 'end';
+
+export function getRandomSeed(): string {
+	return String(Math.round(Math.random() * 1e9));
+}
+
+export function getMazeSeed(maze: Maze): MazeSeed {
+	return {
+		title: maze.title,
+		width: maze.cells[0]?.length || 0,
+		height: maze.cells.length,
+		seed: maze.seed,
+		startingCell: maze.startingCell,
+		endingCell: maze.endingCell,
+		timer: {
+			...maze.timer
+		}
+	};
+}
 
 export function getCell({
 	maze,

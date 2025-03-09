@@ -1,16 +1,18 @@
 <script lang="ts">
 	import ExploreCell from '$lib/components/explore/exploreCell.svelte';
-	import { getAdjacents, getCell, go, type Adjacent } from '$lib/maze';
+	import { getAdjacents, getCell, go, type Adjacent, type Maze } from '$lib/maze';
 	import type { Orientation } from '$lib/orientation';
 	import { fade } from 'svelte/transition';
 	import type { PageProps } from './$types';
 	import MovementsLeft from '$lib/components/explore/movementsLeft.svelte';
 	import SoundIndicator from '$lib/components/explore/soundIndicator.svelte';
+	import { generateMaze } from '$lib/randomMazeGenerator';
 
 	const transitionDuration = 200;
 
 	let { data }: PageProps = $props();
-	const maze = data.maze;
+	const mazeSeed = data.mazeSeed;
+	const maze: Maze = { ...mazeSeed, cells: [], ...generateMaze(mazeSeed) };
 	let showCell: boolean = $state(true);
 	let currentCellCoordinates = $state(maze.startingCell);
 	let currentCell = $derived(getCell({ maze, cellCoordinates: currentCellCoordinates }));

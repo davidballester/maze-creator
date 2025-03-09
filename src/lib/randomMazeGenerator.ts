@@ -1,4 +1,5 @@
 import type { Maze, WallBoolean } from './maze';
+import seedrandom from 'seedrandom';
 
 type MazeCellUnderContruction = {
 	i: number;
@@ -8,15 +9,24 @@ type MazeCellUnderContruction = {
 };
 type MazeUnderConstruction = MazeCellUnderContruction[][];
 
-export function generateMaze({ width, height }: { width: number; height: number }): Partial<Maze> {
+export function generateMaze({
+	width,
+	height,
+	seed
+}: {
+	width: number;
+	height: number;
+	seed: string;
+}): Partial<Maze> {
 	if (width < 1 || height < 1) {
 		throw new Error('invalid size');
 	}
+	const rng = seedrandom(seed);
 	const mazeUnderConstruction = generateInitialMaze({ width, height });
-	getRandomUnvisitedCell({ maze: mazeUnderConstruction }).visited = true;
+	getRandomUnvisitedCell({ maze: mazeUnderConstruction, rng }).visited = true;
 	while (!allCellsVisited({ maze: mazeUnderConstruction })) {
-		const sourceCell = getRandomUnvisitedCell({ maze: mazeUnderConstruction });
-		const walk = createRandomWalk({ maze: mazeUnderConstruction, sourceCell: sourceCell });
+		const sourceCell = getRandomUnvisitedCell({ maze: mazeUnderConstruction, rng });
+		const walk = createRandomWalk({ maze: mazeUnderConstruction, sourceCell: sourceCell, rng });
 		for (let i = 1; i < walk.length; i++) {
 			const prevCell = walk[i - 1];
 			const nextCell = walk[i];
@@ -62,11 +72,13 @@ function generateInitialMaze({
 }
 
 function getRandomUnvisitedCell({
-	maze
+	maze,
+	rng
 }: {
 	maze: MazeUnderConstruction;
+	rng: seedrandom.PRNG;
 }): MazeCellUnderContruction {
-	const randomSort = () => Math.random() - 0.5;
+	const randomSort = () => rng() - 0.5;
 	return getUnvisitedCells({ maze }).sort(randomSort).pop()!;
 }
 
@@ -83,16 +95,18 @@ function allCellsVisited({ maze }: { maze: MazeUnderConstruction }) {
 
 function createRandomWalk({
 	maze,
-	sourceCell
+	sourceCell,
+	rng
 }: {
 	maze: MazeUnderConstruction;
 	sourceCell: MazeCellUnderContruction;
+	rng: seedrandom.PRNG;
 }): MazeCellUnderContruction[] {
 	let walk: MazeCellUnderContruction[] = [];
 	do {
 		walk.push(sourceCell);
 		const adjacentCells = getAdjacentCells({ maze, cell: sourceCell });
-		sourceCell = shuffle(adjacentCells).pop()!;
+		sourceCell = shuffle({ array: adjacentCells, rng }).pop()!;
 		if (walk.includes(sourceCell)) {
 			const indexOfSourceCell = walk.indexOf(sourceCell);
 			walk = walk.slice(0, indexOfSourceCell);
@@ -140,8 +154,8 @@ function go({
 	}
 }
 
-function shuffle<T>(array: T[]): T[] {
-	const randomSort = () => Math.random() - 0.5;
+function shuffle<T>({ array, rng }: { array: T[]; rng: seedrandom.PRNG }): T[] {
+	const randomSort = () => rng() - 0.5;
 	return array.sort(randomSort);
 }
 

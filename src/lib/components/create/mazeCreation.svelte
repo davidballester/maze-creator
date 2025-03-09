@@ -1,5 +1,11 @@
 <script lang="ts">
-	import type { Maze, MazeCellCoordinates } from '$lib/maze';
+	import {
+		getMazeSeed,
+		getRandomSeed,
+		type Maze,
+		type MazeCellCoordinates,
+		type MazeSeed
+	} from '$lib/maze';
 	import { generateMaze } from '$lib/randomMazeGenerator';
 	import Input from '$lib/components/ui/input.svelte';
 	import MazeOverview from '$lib/components/mazeOverview.svelte';
@@ -27,12 +33,15 @@
 			maze
 		})
 	);
+	let mazeSeed: MazeSeed = $derived(getMazeSeed(maze));
 	let currentAccordionItem: AccordionItem = $state('layout');
 
 	function onGenerateMaze() {
+		const seed = getRandomSeed();
 		maze = {
 			...maze,
-			...generateMaze({ width, height })
+			seed,
+			...generateMaze({ width, height, seed })
 		};
 	}
 
@@ -48,7 +57,7 @@
 		window.history.replaceState(
 			{},
 			'',
-			`${window.location.origin}/${compressToURIComponent(maze, MAZE_CREATION_COMPRESSION_SHIFT)}`
+			`${window.location.origin}/${compressToURIComponent(mazeSeed, MAZE_CREATION_COMPRESSION_SHIFT)}`
 		);
 	}
 </script>
@@ -122,7 +131,7 @@
 		{#if maze}
 			<div class="mt-4 flex flex-col gap-3">
 				<MazeOverview {maze} {mazeSolution} />
-				<LinkButton href={`/explore/${compressToURIComponent(maze)}`} data-sveltekit-reload>
+				<LinkButton href={`/explore/${compressToURIComponent(mazeSeed)}`} data-sveltekit-reload>
 					Explore
 				</LinkButton>
 			</div>
