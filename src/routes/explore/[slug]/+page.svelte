@@ -43,12 +43,12 @@
 	}
 </script>
 
-<div class="flex flex-1 flex-col items-center select-none">
+<div class="flex flex-1 flex-col items-center gap-8 p-4 select-none">
 	<header>
 		<h1 class="text-center text-6xl">{maze.title || 'Maze'}</h1>
 	</header>
 
-	<div class="mt-8 flex grow-1 flex-col items-center">
+	<div class="flex grow-1 flex-col items-center">
 		{#if maze.timer.enabled}
 			<div class="mb-4 flex flex-row items-center gap-3">
 				{#if maze.timer.display}
