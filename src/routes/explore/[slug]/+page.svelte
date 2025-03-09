@@ -7,6 +7,7 @@
 	import MovementsLeft from '$lib/components/explore/movementsLeft.svelte';
 	import SoundIndicator from '$lib/components/explore/soundIndicator.svelte';
 	import { generateMaze } from '$lib/randomMazeGenerator';
+	import { playUnlockSoundEffect } from '$lib/unlockSoundEffect';
 
 	const transitionDuration = 200;
 
@@ -67,6 +68,7 @@
 					{adjacent}
 					{disableNavigation}
 					onUnlock={() => {
+						playUnlockSoundEffect();
 						currentCell.interaction!.blocksDirection = {};
 						currentCellCoordinates = { ...currentCellCoordinates };
 					}}

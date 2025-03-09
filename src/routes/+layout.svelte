@@ -25,6 +25,13 @@
 			>
 				Heartbeat sound effect by StarNinjas37 - FreeSound.org
 			</a>
+			<a
+				href="https://freesound.org/people/Cepagrave/sounds/476911/"
+				class="text-xs"
+				target="_blank"
+			>
+				Door unlocked effect effect by Cepagrave - FreeSound.org
+			</a>
 		</footer>
 	</div>
 </div>
