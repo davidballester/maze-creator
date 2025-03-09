@@ -17,7 +17,7 @@
 	} = $props();
 	let walls: string = $derived.by(() => {
 		const directions = ['north', 'east', 'south', 'west'];
-		const walls = directions.filter((_, i) => cell[i]);
+		const walls = directions.filter((_, i) => cell.walls[i]);
 		return walls.join(' ');
 	});
 </script>

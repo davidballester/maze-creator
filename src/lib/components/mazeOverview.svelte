@@ -35,7 +35,7 @@
 					<tr>
 						<td>
 							{#if i === 0}
-								<MazeOverviewCell cell={[0, 0, 0, 0]} solutionOrientation={'east'} />
+								<MazeOverviewCell cell={{ walls: [0, 0, 0, 0] }} solutionOrientation={'east'} />
 							{/if}
 						</td>
 						{#each rowCells as cell, j}
@@ -43,7 +43,7 @@
 						{/each}
 						<td>
 							{#if i === maze.cells.length - 1}
-								<MazeOverviewCell cell={[0, 0, 0, 0]} solutionOrientation={'east'} />
+								<MazeOverviewCell cell={{ walls: [0, 0, 0, 0] }} solutionOrientation={'east'} />
 							{/if}
 						</td>
 					</tr>

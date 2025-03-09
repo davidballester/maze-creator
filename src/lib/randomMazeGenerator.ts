@@ -30,7 +30,7 @@ export function generateMaze(mazeSeed: MazeSeed): Maze {
 	}
 	const maze: Maze = {
 		...mazeSeed,
-		cells: mazeUnderConstruction.map((row) => row.map(({ walls }) => walls)),
+		cells: mazeUnderConstruction.map((row) => row.map(({ walls }) => ({ walls }))),
 		startingCell: { i: 0, j: 0 },
 		endingCell: { i: height - 1, j: width - 1 }
 	};

@@ -14,7 +14,7 @@
 			'border-b-stone-100',
 			'border-l-stone-100'
 		];
-		const borderClasses = cell.map((wall, i) => (wall ? borders[i] : '')).filter(Boolean);
+		const borderClasses = cell.walls.map((wall, i) => (wall ? borders[i] : '')).filter(Boolean);
 		classes.push(...borderClasses);
 		return classes.join(' ');
 	});

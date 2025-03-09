@@ -29,7 +29,8 @@ export function getMazeSolution({ maze }: { maze: Maze }): MazeCellCoordinates[]
 		mazeWithVisited[currentCellCoordinates.i][currentCellCoordinates.j] = true;
 		const directions = [0, 1, 2, 3];
 		const traversableDirections = directions.filter(
-			(direction) => maze.cells[currentCellCoordinates.i][currentCellCoordinates.j][direction] === 0
+			(direction) =>
+				maze.cells[currentCellCoordinates.i][currentCellCoordinates.j].walls[direction] === 0
 		);
 		const adjacentNodes = traversableDirections
 			.map((direction) => go({ maze, cellCoordinates: currentCellCoordinates, direction }))

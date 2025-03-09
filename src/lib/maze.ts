@@ -2,7 +2,9 @@ import type { Orientation } from './orientation';
 
 export type WallBoolean = 0 | 1;
 // North, East, South, West
-export type MazeCell = [WallBoolean, WallBoolean, WallBoolean, WallBoolean];
+export type MazeCell = {
+	walls: [WallBoolean, WallBoolean, WallBoolean, WallBoolean];
+};
 export interface MazeCellCoordinates {
 	i: number;
 	j: number;
@@ -97,7 +99,7 @@ export function getAdjacents({
 	const adjacent = ['north', 'east', 'south', 'west'].reduce(
 		(acc, direction, i) => ({
 			...acc,
-			[direction]: cell[i] ? 'wall' : 'none'
+			[direction]: cell.walls[i] ? 'wall' : 'none'
 		}),
 		{} as { [orientation in Orientation]: Adjacent }
 	);
