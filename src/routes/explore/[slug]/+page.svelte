@@ -45,7 +45,7 @@
 
 <div class="flex flex-1 flex-col items-center gap-8 p-4 select-none">
 	<header>
-		<h1 class="text-center text-6xl">{maze.title || 'Maze'}</h1>
+		<h1 class="p-2 text-center text-6xl">{maze.title || 'Maze'}</h1>
 	</header>
 
 	<div class="flex grow-1 flex-col items-center">

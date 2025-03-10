@@ -79,7 +79,7 @@
 
 <div class="w-full">
 	<header class="mb-4">
-		<h1 class="text-center text-6xl">Create a New Maze</h1>
+		<h1 class="p-2 text-center text-6xl">Create a New Maze</h1>
 	</header>
 	<p class="p-4">
 		Edit the maze and then explore it. You can share the exploration link with anyone for them to
