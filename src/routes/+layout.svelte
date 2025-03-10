@@ -40,13 +40,6 @@
 			>
 				Door unlocked effect effect by Cepagrave - FreeSound.org
 			</a>
-			<a
-				href="https://freesound.org/people/Cepagrave/sounds/476911/"
-				class="text-xs"
-				target="_blank"
-			>
-				Door unlocked effect effect by Cepagrave - FreeSound.org
-			</a>
 			<a href="https://www.flaticon.com/free-icons/maze" class="text-xs" target="_blank">
 				Favicon created by Freepik - Flaticon
 			</a>
