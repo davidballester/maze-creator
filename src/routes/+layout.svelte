@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-	<title>Maze Creator</title>
+	<title>Maze Crawl</title>
 </svelte:head>
 
 <div class=" bg-stone-950 text-stone-100">
